@@ -1,0 +1,20 @@
+28/11/2023
+drew the select level UI using paint.net
+positioned the bottons so that they align with those on the picture and make them transparent
+update buttons classes to take corner rounding and a font
+added the terexmal font for the UI using loadFont and textFont funcs
+changed pressing the level sending you straight into the level and just selects it now and you gotta press "play" to start the level now
+added the play button functionality
+added a unlocked attribute to the buttons
+added canEnter variable
+made it so the next level is unlocked after completing the previous one
+added images for levels 1, 2 and 4
+made it so when each level is selected an image is also displayed (image size: 1002 x 561; from 415, 94)
+
+/* Next Goal */
+use inheritence to extend the button class for level buttons that will centre the text better 
+Add stationary Enemies
+Add functional levels
+Add a better Main Screen
+Add a better Complete Screen
+Add a better Death Screen

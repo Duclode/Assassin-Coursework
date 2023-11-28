@@ -1,0 +1,38 @@
+KARASHA FONT:
+Updated: 13/1/21
+accessed: 28/11/2023
+Author: Nurf Designs
+URL: https://www.fontspace.com/karasha-font-f55205
+license: Freeware, Non-Commercial
+
+TEREXMAL SUNDAY FONT:
+Updated: 13/9/22
+accessed: 28/11/2023
+Author: limitype
+URL: https://www.fontspace.com/terexmal-sunday-font-f84258
+license: Freeware, Non-Commercial
+
+PIXEL-CRAWLER ASSET PACK:
+Published: 20/10/2022
+Author: Anokolisa
+accesed: 28/11/2023
+URL: https://anokolisa.itch.io/dungeon-crawler-pixel-art-asset-pack
+license: Creative Commons Zero v1.0 Universal
+
+lvl1Image (manor):
+<a href="https://www.freepik.com/free-vector/scary-house-poster-with-spooky-building-night-vector-illustration_37420269.htm#query=scary%20horror%20house&position=25&from_view=search&track=ais&uuid=3196567a-c1ca-458c-8eaf-86b754dc7573">Image by macrovector</a> on Freepik
+Accessed: 28/11/2023
+Author: macrovector
+
+lvl2Image (woods):
+URL: <a href="https://www.freepik.com/free-vector/forest-landscape-silhouette-background_19747334.htm">Image by brgfx</a> on Freepik
+Accessed: 28/11/2023
+
+lvl3Image (vilalge):
+URL: <a href="https://www.vecteezy.com/free-vector/japanese-village">Japanese Village Vectors by Vecteezy</a>
+Author: Yuliya Pauliukevich
+Accessed: 28/11/2023
+
+lvl4Image (shrine):
+URL: Image by <a href="https://www.freepik.com/free-vector/japanese-temple-hill_9978259.htm#query=japanese%20shrine%20sihlouette&position=31&from_view=search&track=ais&uuid=0f7a82fc-78a7-4772-b457-acf053bd707e">Freepik</a>
+Accessed: 28/11/2023

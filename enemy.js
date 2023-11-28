@@ -1,0 +1,198 @@
+    // to do:
+    // search up "javascript looping over an object" to find a more efficient way to reset a level
+    // https://stackoverflow.com/questions/1512315/javascript-looping-over-an-object
+    // https://stackoverflow.com/questions/2228203/how-to-loop-through-an-object-in-javascript
+class Enemy {
+  constructor({x, y, speed = 2.8, route = 'vertical', facing =  'down'}) {
+    this.x = x;
+    this.y = y;
+    this.speed = speed;
+    this.diameter = cellSize * 0.7;
+    this.dx = this.speed;
+    this.dy = this.speed;
+
+    /* vision cone */
+    this.facing = facing;
+    this.direction = {
+      "up": {'faceDirection': -Math.PI / 2, 'travelDirection': -this.dy},
+      "down": {'faceDirection': Math.PI / 2, 'travelDirection': this.dy},
+      "left": {'faceDirection': Math.PI, 'travelDirection': -this.dx},
+      "right": {'faceDirection': 0, 'travelDirection': this.dx}
+    };
+    
+    this.arcRadius = cellSize * 10; // change length (radius) of cone
+    this.heading = this.direction[this.facing]['faceDirection']; 
+    this.fov = Math.PI / 4;
+    this.rotationAngle = -Math.PI;
+    this.camColour = [0, 255, 0, 80];
+    this.camera = new Camera(this.x, this.y, this.arcRadius, this.heading, this.fov, this.camColour)
+
+    /* patrol */
+    this.patrolMode = {type: route, fixedCam: false}; // type: vertical, horizontal, stationary
+    this.collideCount = 0;
+
+    /* Sprite */
+    this.frame = 0;
+    this.maxFrame = 0;
+    this.line = 0;
+    /* framerate throttling */
+    this.gameFrame = 0;
+    this.staggerFrames = 10; // increasing slows down sprite animations
+
+    //other
+    this.default = {x: x, y: y, dx: speed, dy: speed, route: route, facing: facing};
+  } //endconstructor
+
+  draw() {
+    /* hitbox debug */
+    //fill("black");
+    //circle(this.x, this.y, this.diameter);
+    this.refreshCamera();
+    this.camera.drawCamera(); 
+    image(
+      slimeEnemy,
+      this.x - this.diameter - 3,
+      this.y - this.diameter - 6,
+      this.diameter * 2.3,
+      this.diameter * 2.3,
+      this.frame * tileSize,
+      this.line * tileSize,
+      tileSize,
+      tileSize
+    )
+    /** Debug */
+    // const pathKeys = Object.keys(this.direction);
+    // console.log(pathKeys);
+    // let pathKeys = Object.keys(this.direction);
+    // console.log(pathKeys);
+    // console.log(this.direction['up']);
+  }
+
+  cameraVision(player) {
+   // collidePointArc(pointX, pointY, arcCenterX, arcCenterY, arcRadius, arcRotationAngle, arcAngle, [buffer]) 
+    if (
+      collidePointArc(
+        player.x, 
+        player.y, 
+        this.camera.x, 
+        this.camera.y, 
+        this.camera.arcRadius / 2, 
+        this.camera.heading, 
+        this.camera.fov
+      )
+    ) {
+      this.camera.colour = "green";
+      state = "gOver";
+    } else {
+      this.camera.colour = this.camColour
+    }
+    //console.log(`cameraPOS: ${this.camera.x}, ${this.camera.y}`);
+  } //endMethod
+  
+  patrol() {
+    this.maxFrame = 6 // frames start from 0
+    if (this.patrolMode.type == 'wallHug') {
+      this.wallFollowPath();
+    } else {
+      this.straightPath();
+    } 
+    this.line = 1;
+    if (this.gameFrame % this.staggerFrames == 0) this.frame = ++this.frame % this.maxFrame;
+    this.gameFrame++;
+  } //endMethod
+
+  collisionCheck(posX, posY) {
+    // loops through the tileMap/collisionMap
+    for (let y = 0; y < mapHeight; y++) {
+      for (let x = 0; x < mapWidth; x++) {
+        if (levelMap[y][x] == 1) { // 1 = wall tile
+          if (
+            // p5.collide2d function to checks for a collision
+            collideRectCircle(
+              x * cellSize,
+              y * cellSize,
+              cellSize,
+              cellSize,
+              posX,
+              posY,
+              this.diameter
+            )
+          ) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  } //endMethod
+  
+  refreshCamera() {this.camera.update(this.x, this.y, this.arcRadius, this.heading, this.fov, this.camColour)};
+
+  straightPath(){
+    if (this.patrolMode.type == 'horizontal') {
+      if (this.facing == 'up' || this.facing == 'down') { // correctly orients the enemy
+        this.facing = 'right'; 
+        this.heading = this.direction[this.facing]['faceDirection'];
+      }
+      if (!this.collisionCheck(this.x + this.dx, this.y)) {
+        // the simulated new position is pre-calculated before the function call
+        this.x += this.dx;
+      } else {
+        this.dx *= -1;
+        if (!this.patrolMode.fixedCam){ // allows option for cameras to be fixed while patrolling
+          (this.facing == 'left' ) ? this.facing = 'right' : this.facing = 'left'; 
+          this.heading = this.direction[this.facing]['faceDirection'];
+        }
+      }
+    } else if (this.patrolMode.type == "vertical") {
+      if (this.facing == 'left' || this.facing == 'right') { // correctly orients the enemy
+        this.facing = 'down'; 
+        this.heading = this.direction[this.facing]['faceDirection'];
+      }
+      if (!this.collisionCheck(this.x, this.y + this.dy)) { // on collision reverses the enemies direction
+        this.y += this.dy;
+      } else {
+        this.dy *= -1;
+        if (!this.patrolMode.fixedCam){ // allows option for cameras to be fixed while patrolling
+          (this.facing == "up" ) ? this.facing = "down" : this.facing = "up";
+          this.heading = this.direction[this.facing]['faceDirection'];
+        }
+      }
+    }
+  } // endMethod
+
+  wallFollowPath(){
+    if (this.facing == 'up'){
+      if (!this.collisionCheck(this.x, this.y + this.dy)) {
+        this.y += -this.dy;
+      }
+    } else if (this.collisionCheck(this.x, this.y + this.dy)) {
+        this.facing = 'right';
+        this.heading = this.direction[this.facing]['faceDirection'];
+      } 
+    if (this.facing = 'right'){
+      if (!this.collisionCheck(this.x + this.dx, this.y)) {
+        this.x += this.dx;
+      }
+    }
+    /**  
+    // try using a while loops instead of if statements actually it might work fine with if statements -_-
+    example:
+    while/if (facing == 'up') {
+      this.y += this.dy;
+      if (collisionCheck(this.x, this.y + this.dy)) { // so it switches the facing direction which should exit out of the while loop
+      this.facing = 'right';
+      break; // maybe a precaution of it doesn't break it out
+      }
+    }
+    while/if (facing == 'right') {
+      this.x += this.dx;
+      if (collisonCheck(this.x + this.dx, this.y)) {
+      this.facing = 'down';
+      break;
+      }
+    }
+    // and repeat etc
+    */
+  } //endMethod 
+} //endClass
