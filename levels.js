@@ -61,8 +61,8 @@ let gameLevels = {
         [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
       ],
       "playerPosition": {
-        "x": 6.5,
-        "y": 7.5
+        "x": 28.5,
+        "y": 5.5
       },
       "enemies": [
         {
@@ -82,6 +82,30 @@ let gameLevels = {
           },
           "facing": "right",
           "route": "horizontal"
+        },
+        {
+          "enemyId": 3,
+          "position": {"x": 25.5, "y": 5.5},
+          "facing": "down",
+          "route": "stationary",
+          "visionRadius": 14,
+          "fov": 13,
+          "visionType": "cone"
+        },
+        {
+          "enemyId": 4,
+          "position": {x: 22.5, y: 12.5},
+          "facing": "up",
+          "route": "stationary",
+          "visionRadius": 13,
+          "fov": 13
+        },
+        {
+          "enemyId": 5,
+          "position": {x: 13.5, y: 8.5},
+          "route": "stationary",
+          "visionRadius": 4,
+          "visionType": "area"
         }
       ],
       "completeSquare": {

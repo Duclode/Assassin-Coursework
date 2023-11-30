@@ -1,5 +1,5 @@
 class CompleteSquare {
-  constructor(x, y, w, h, colour = [0, 255, 0, 100]) {
+  constructor(x, y, w, h, colour = [0, 255, 0, 20]) {
     this.x = x;
     this.y = y;
     this.w = w;

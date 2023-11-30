@@ -3,7 +3,7 @@
     // https://stackoverflow.com/questions/1512315/javascript-looping-over-an-object
     // https://stackoverflow.com/questions/2228203/how-to-loop-through-an-object-in-javascript
 class Enemy {
-  constructor({x, y, speed = 2.8, route = 'vertical', facing =  'down'}) {
+  constructor({x, y, speed = 2.8, route = 'vertical', facing =  'down', visionRadius = 10, fov = 4, visionType = "cone"}) {
     this.x = x;
     this.y = y;
     this.speed = speed;
@@ -12,6 +12,7 @@ class Enemy {
     this.dy = this.speed;
 
     /* vision cone */
+    this.visionType = visionType;
     this.facing = facing;
     this.direction = {
       "up": {'faceDirection': -Math.PI / 2, 'travelDirection': -this.dy},
@@ -20,9 +21,9 @@ class Enemy {
       "right": {'faceDirection': 0, 'travelDirection': this.dx}
     };
     
-    this.arcRadius = cellSize * 10; // change length (radius) of cone
+    this.arcRadius = cellSize * visionRadius; // change length (radius) of cone
     this.heading = this.direction[this.facing]['faceDirection']; 
-    this.fov = Math.PI / 4;
+    this.fov = Math.PI / fov;
     this.rotationAngle = -Math.PI;
     this.camColour = [0, 255, 0, 80];
     this.camera = new Camera(this.x, this.y, this.arcRadius, this.heading, this.fov, this.camColour)
@@ -33,8 +34,8 @@ class Enemy {
 
     /* Sprite */
     this.frame = 0;
-    this.maxFrame = 0;
-    this.line = 0;
+    this.maxFrame = 6; // frames start from 0
+    this.line = 1;
     /* framerate throttling */
     this.gameFrame = 0;
     this.staggerFrames = 10; // increasing slows down sprite animations
@@ -45,13 +46,17 @@ class Enemy {
 
   draw() {
     /* hitbox debug */
-    //fill("black");
-    //circle(this.x, this.y, this.diameter);
-    this.refreshCamera();
-    this.camera.drawCamera(); 
+    fill(this.camColour);
+    circle(this.x, this.y, this.diameter);
+    if (this.visionType == "area") circle(this.x, this.y, this.arcRadius);
+    if (this.gameFrame % this.staggerFrames == 0) this.frame = ++this.frame % this.maxFrame;
+    if (this.visionType == "cone") {
+      this.refreshCamera();
+      this.camera.drawCamera(); 
+    }
     image(
       slimeEnemy,
-      this.x - this.diameter - 3,
+      this.x - this.diameter - 4,
       this.y - this.diameter - 6,
       this.diameter * 2.3,
       this.diameter * 2.3,
@@ -60,6 +65,7 @@ class Enemy {
       tileSize,
       tileSize
     )
+    this.gameFrame++;
     /** Debug */
     // const pathKeys = Object.keys(this.direction);
     // console.log(pathKeys);
@@ -70,6 +76,7 @@ class Enemy {
 
   cameraVision(player) {
    // collidePointArc(pointX, pointY, arcCenterX, arcCenterY, arcRadius, arcRotationAngle, arcAngle, [buffer]) 
+    if (this.visionType !== "cone") return;
     if (
       collidePointArc(
         player.x, 
@@ -81,24 +88,33 @@ class Enemy {
         this.camera.fov
       )
     ) {
-      this.camera.colour = "green";
+      this.camera.colour = [255, 0, 0, 80];
       state = "gOver";
     } else {
       this.camera.colour = this.camColour
     }
     //console.log(`cameraPOS: ${this.camera.x}, ${this.camera.y}`);
   } //endMethod
+
+  areaVision(player) { // maybe change this.arcRadius to something more appropiate
+    if (this.visionType !== "area") return;
+    if (collideCircleCircle(this.x, this.y, this.arcRadius, player.x, player.y, player.diameter)) {
+      this.camera.colour = [255, 0, 0, 80];
+      state = "gOver";
+    
+    } else {
+      this.camera.colour = this.camColour;
+    }
+  }
   
   patrol() {
-    this.maxFrame = 6 // frames start from 0
     if (this.patrolMode.type == 'wallHug') {
       this.wallFollowPath();
-    } else {
+    } else if (this.patrolMode.type == 'vertical' || this.patrolMode.type == 'horizontal') {
       this.straightPath();
-    } 
-    this.line = 1;
-    if (this.gameFrame % this.staggerFrames == 0) this.frame = ++this.frame % this.maxFrame;
-    this.gameFrame++;
+    } else {
+      return;
+    }
   } //endMethod
 
   collisionCheck(posX, posY) {

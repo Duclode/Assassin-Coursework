@@ -56,11 +56,11 @@ function setup() {
   bSettings = new Button(546, 459, 434, 69, "Settings", [100, 255, 100, 0], true, true, 0, karashaFont);
   bCredits = new Button(546, 629, 434, 69, "Credits", [100, 255, 100, 0], true, true, 0, karashaFont);
   bGameplayBack = new Button(23, 19, 200, 100, "Back", [255, 100, 100]);
-  bRestart = new Button(width / 2 - 100, height / 2 - 100, 200, 100, "Restart", [255, 100, 100], 0);
+  bRestart = new Button(width / 2 - 100, height / 2 - 100, 200, 100, "Restart", [255, 100, 100], true);
   bExit = new Button(23, 19, 200, 100, "Exit", [255, 100, 100]);
   bSelectExit = new Button(1330, 779, 182, 67, "Exit", [255, 100, 100]);
-  bReplay = new Button(23, canvasHeight - 119, 200, 100, "Replay", [255, 100, 100], 0);
-  bNextLevel = new Button( canvasWidth - 223, canvasHeight - 119, 200, 100, "Next Level", [255, 100, 100], 0);
+  bReplay = new Button(23, canvasHeight - 119, 200, 100, "Replay", [255, 100, 100], true);
+  bNextLevel = new Button( canvasWidth - 223, canvasHeight - 119, 200, 100, "Next Level", [255, 100, 100], true);
   bLvl1 = new Button(91, 122, 162, 121, "1", [31, 164, 204, 0], false, true, 15, terexmalFont); // change the opacity of the colour to see the button hitbox
   bLvl2 = new Button(91, 289, 162, 121, "2", [31, 164, 204, 0], false, true, 15, terexmalFont);
   bLvl3 = new Button(91, 456, 162, 121, "3", [31, 164, 204, 0], false, false, 15, terexmalFont);
@@ -237,10 +237,10 @@ function runGame() {
   //drawMap(levelMap);
   //noStroke(); // removes stroke around the enemy vision cones
   if (level == 1) image(gameMap, 0, 0);
-  p.draw();
-  p.move();
   runEnemies(enemies);
   completeSquare.draw();
+  p.draw();
+  p.move();
   completeSquare.ifLevelComplete(p);
 } //endfuc
 
@@ -258,6 +258,7 @@ function runEnemies(enemies) {
   enemies.forEach((e) => {
     e.draw();
     e.cameraVision(p);
+    e.areaVision(p);
     e.patrol();
   });
 } //endfunc
@@ -279,7 +280,7 @@ function initNextLevel(level) {
 function initEnemies(level) {
   for (const key in gameData.enemies){
     let enemy = gameData.enemies[key];
-    enemies.push(new Enemy({x: enemy.position.x * cellSize, y: enemy.position.y * cellSize, facing: enemy.facing, route: enemy.route}));
+    enemies.push(new Enemy({x: enemy.position.x * cellSize, y: enemy.position.y * cellSize, facing: enemy.facing, route: enemy.route, visionRadius: enemy.visionRadius, fov: enemy.fov, visionType: enemy.visionType}));
   } //endfor
 } //endfunc
 

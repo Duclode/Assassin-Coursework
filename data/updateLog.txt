@@ -18,13 +18,20 @@ added a shuriken image next to the buttons on hover
 
 30/11/2023
 bro said to put a shuriken on both sides
+made the enemy vision cones radius and field of view modula
+switched the layer the player to drawn to be ontop of the enemy vision cone
+added 2 more enemies to lvl 1
+Added stationary Enemies (with vision cones)
+finish areaVision enemy method
+add stationary enemyies with no vision cone but a circular area of vision instead
 
-/* Next Goal */
+/* Next Goals */
 put a shuriken on both sides of button for the restart, replay and next level buttons 
-Add stationary Enemies (with vision cones and without)
-add 
-Add functional levels
+Add functional levels (WIP)
 Add a better Complete Screen (WIP)
 Add a better Death Screen (WIP)
 I need to find the source of the slime spritesheet
 use inheritence to extend the button class for level buttons that will centre the text better 
+use the hasVisionCone variable and a timer to create "blinking" vision cones
+make the screen sizes reactive to the screen size 
+Pause menu that appears when you press options while playing a level
