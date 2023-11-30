@@ -11,7 +11,7 @@ let cellSize = 0;
 let mapWidth = levelMap[0].length;
 let mapHeight = levelMap.length;
 let tileSize = 32; // 32px x 32px
-let bStart, bSettings, bGameplayBack, bRestart, bExit, bReplay, bNextLevel;
+let bStart, bSettings, bCredits, bGameplayBack, bRestart, bExit, bReplay, bNextLevel;
 let p; // player
 let enemies = [];
 let cells = [];
@@ -26,14 +26,15 @@ let selectLevelImg = new p5.Image(1,1);
 function preload() {
   terexmalFont = loadFont("fonts/terexmalSunday.otf");
   karashaFont = loadFont("fonts/karasha.otf");
-  selectLevelUI = loadImage("images/selectLevelUI.png");
+  shuriken = loadImage("images/shuriken.png");
+  selectLevelUI = loadImage("images/UI/selectLevelUI.png");
+  screenBackground = loadImage("images/background.png");
+  launchScreen = loadImage("images/UI/launchScreen.png");
   lvl1Img = loadImage("images/levelImages/lvl1Img.png")
   lvl2Img = loadImage("images/levelImages/lvl2Img.png");
   lvl3Img = loadImage("images/levelImages/lvl3Img.png");
   lvl4Img = loadImage("images/levelImages/lvl4Img.png");
   playerImg = loadImage("images/character.png");
-  tileSet = loadImage("images/pacmanTileset.png");
-  pac_man = loadImage("images/pac_man/pac man movement.png");
   gameMap = loadImage("images/gamemapTest2.png");
   slimeEnemy = loadImage("images/slime.png");
 }
@@ -51,14 +52,15 @@ function setup() {
   p = new Player(gameData.playerPosition.x * cellSize, gameData.playerPosition.y * cellSize);
   initEnemies(level);
   completeSquare = new CompleteSquare(gameData.completeSquare.x * cellSize, gameData.completeSquare.y * cellSize, cellSize, cellSize);
-  bStart = new Button(width / 2 - 100, height / 2 - 100, 200, 100, "Start", [100, 100, 255], 0);
-  bSettings = new Button(width / 2 - 100, height / 2 + 50, 200, 100, "Settings", [100, 255, 100], 0);
-  bGameplayBack = new Button(5, 5, 200, 100, "Back", [255, 100, 100]);
+  bStart = new Button(546, 289, 434, 69, "Start", [100, 255, 100, 0], true, true, 0, karashaFont);
+  bSettings = new Button(546, 459, 434, 69, "Settings", [100, 255, 100, 0], true, true, 0, karashaFont);
+  bCredits = new Button(546, 629, 434, 69, "Credits", [100, 255, 100, 0], true, true, 0, karashaFont);
+  bGameplayBack = new Button(23, 19, 200, 100, "Back", [255, 100, 100]);
   bRestart = new Button(width / 2 - 100, height / 2 - 100, 200, 100, "Restart", [255, 100, 100], 0);
-  bExit = new Button(5, 5, 200, 100, "Exit", [255, 100, 100]);
+  bExit = new Button(23, 19, 200, 100, "Exit", [255, 100, 100]);
   bSelectExit = new Button(1330, 779, 182, 67, "Exit", [255, 100, 100]);
-  bReplay = new Button(5, canvasHeight - 105, 200, 100, "Replay", [255, 100, 100], 0);
-  bNextLevel = new Button( canvasWidth - 205, canvasHeight - 105, 200, 100, "Next Level", [255, 100, 100], 0);
+  bReplay = new Button(23, canvasHeight - 119, 200, 100, "Replay", [255, 100, 100], 0);
+  bNextLevel = new Button( canvasWidth - 223, canvasHeight - 119, 200, 100, "Next Level", [255, 100, 100], 0);
   bLvl1 = new Button(91, 122, 162, 121, "1", [31, 164, 204, 0], false, true, 15, terexmalFont); // change the opacity of the colour to see the button hitbox
   bLvl2 = new Button(91, 289, 162, 121, "2", [31, 164, 204, 0], false, true, 15, terexmalFont);
   bLvl3 = new Button(91, 456, 162, 121, "3", [31, 164, 204, 0], false, false, 15, terexmalFont);
@@ -70,18 +72,20 @@ function draw() {
   background(150);
   switch (state) {
     case "gMain":
+      image(launchScreen, 0, 0);
       textAlign(CENTER, CENTER);
-      text("Main menu", width / 2, height / 2 - 200);
       bStart.draw();
-      bStart.update();
       bSettings.draw();
+      bCredits.draw();
+      bStart.update();
       bSettings.update();
+      bCredits.update();
       if (bStart.pressed) {
-        //fill(35, 233, 83); // I don't remember what this is supposed to be for/do
         state = "gSelect";
       } else if (bSettings.pressed) {
-        //fill(35, 233, 233);
         state = "gSettings";
+      } else if (bCredits.pressed) {
+        state = "gCredits";
       }
       break;
     case "gGameplay":
@@ -89,6 +93,9 @@ function draw() {
       runGame();
       break;
     case "gSettings":
+      image(screenBackground, 0, 0);
+      textFont(karashaFont);
+      textSize(64);
       textAlign(CENTER, CENTER);
       text("Settings", width / 2, height / 2 - 200);
       bGameplayBack.draw();
@@ -97,8 +104,23 @@ function draw() {
         state = "gMain";
       }
       break;
-    case "gOver":
+    case "gCredits":
+      image(screenBackground, 0, 0);
+      textFont(karashaFont);
+      textSize(64);
       textAlign(CENTER, CENTER);
+      text("Credits", width / 2, height / 2 - 200);
+      bGameplayBack.draw();
+      bGameplayBack.update();
+      if (bGameplayBack.pressed) {
+        state = "gMain";
+      }
+      break;
+    case "gOver":
+      image(screenBackground, 0, 0);
+      textAlign(CENTER, CENTER);
+      textFont(karashaFont);
+      textSize(64);
       text("Gameover", width / 2, height / 2 - 200);
       bRestart.draw();
       bRestart.update();
@@ -116,7 +138,10 @@ function draw() {
       }
       break;
     case "gComplete":
+      image(screenBackground, 0, 0);
       textAlign(CENTER, CENTER);
+      textFont(karashaFont);
+      textSize(64);
       text("Level complete", width / 2, height / 2 - 200);
       gameLevels.levels[level].unlocked = true; // unlocked the next level
       bReplay.draw();

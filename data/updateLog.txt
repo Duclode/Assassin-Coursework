@@ -9,12 +9,22 @@ added a unlocked attribute to the buttons
 added canEnter variable
 made it so the next level is unlocked after completing the previous one
 added images for levels 1, 2 and 4
+
+29/11/2023
 made it so when each level is selected an image is also displayed (image size: 1002 x 561; from 415, 94)
+improved the launch screen buttons 546 x 289 (+ 170 along the y axis every time) (434 x 87px width x height)
+repositioned the buttons on each menu to fit the new background
+added a shuriken image next to the buttons on hover
+
+30/11/2023
+bro said to put a shuriken on both sides
 
 /* Next Goal */
-use inheritence to extend the button class for level buttons that will centre the text better 
-Add stationary Enemies
+put a shuriken on both sides of button for the restart, replay and next level buttons 
+Add stationary Enemies (with vision cones and without)
+add 
 Add functional levels
-Add a better Main Screen
-Add a better Complete Screen
-Add a better Death Screen
+Add a better Complete Screen (WIP)
+Add a better Death Screen (WIP)
+I need to find the source of the slime spritesheet
+use inheritence to extend the button class for level buttons that will centre the text better 

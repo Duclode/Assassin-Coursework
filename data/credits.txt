@@ -22,10 +22,12 @@ license: Creative Commons Zero v1.0 Universal
 lvl1Image (manor):
 <a href="https://www.freepik.com/free-vector/scary-house-poster-with-spooky-building-night-vector-illustration_37420269.htm#query=scary%20horror%20house&position=25&from_view=search&track=ais&uuid=3196567a-c1ca-458c-8eaf-86b754dc7573">Image by macrovector</a> on Freepik
 Accessed: 28/11/2023
+License: Free license, Attribution is required
 Author: macrovector
 
 lvl2Image (woods):
 URL: <a href="https://www.freepik.com/free-vector/forest-landscape-silhouette-background_19747334.htm">Image by brgfx</a> on Freepik
+License: Free license, Attribution is required
 Accessed: 28/11/2023
 
 lvl3Image (vilalge):
@@ -35,4 +37,22 @@ Accessed: 28/11/2023
 
 lvl4Image (shrine):
 URL: Image by <a href="https://www.freepik.com/free-vector/japanese-temple-hill_9978259.htm#query=japanese%20shrine%20sihlouette&position=31&from_view=search&track=ais&uuid=0f7a82fc-78a7-4772-b457-acf053bd707e">Freepik</a>
+License: Free license, Attribution is required
 Accessed: 28/11/2023
+
+cloud pattern:
+URL: <a href="https://www.freepik.com/free-vector/cloud-background-seamless-chinese-oriental-pattern-vector_18705022.htm#query=japanese%20cloud&position=1&from_view=keyword&track=ais&uuid=016afb8c-0c0b-46db-a627-e219906cc98e">Image by rawpixel.com</a> on Freepik
+Author: rawpixel.com
+License: Free license, Attribution is required
+Accessed: 29/11/2023
+
+Manor lvl1:
+URL: <a href="https://www.freepik.com/free-vector/scary-house-cartoon-poster-with-deserted-building-ghost-cemetery-background-vector-illustration_37420264.htm#query=dark%20manor&position=26&from_view=search&track=ais&uuid=672b7e2a-37d2-43af-a5e4-dd922ddfc82e">Image by macrovector</a> on Freepik
+Author: macrovector
+License: Free license, Attribution is required
+Accessed: 29/11/2023
+
+Shuriken asset:
+URL: https://dk-happy.itch.io/shuriken-ninja
+Author: DK_Happy
+Accessed: 29/11/2023
