@@ -30,10 +30,15 @@ URL: <a href="https://www.freepik.com/free-vector/forest-landscape-silhouette-ba
 License: Free license, Attribution is required
 Accessed: 28/11/2023
 
-lvl3Image (vilalge):
+lvl3Image (village):
 URL: <a href="https://www.vecteezy.com/free-vector/japanese-village">Japanese Village Vectors by Vecteezy</a>
 Author: Yuliya Pauliukevich
 Accessed: 28/11/2023
+
+lvl3NewImage (catacombs):
+URL: <a href="https://www.freepik.com/free-vector/medieval-castle-dungeon-cartoon-composition-with-stone-wood-interiors-vector-illustration_37366216.htm#query=Dungeons&position=3&from_view=search&track=sph&uuid=16d12d02-9528-47f0-a389-380c0da9ed3c">Image by macrovector</a> on Freepik
+License: Free license, Attribution is required
+Accessed: 10/12/2023
 
 lvl4Image (shrine):
 URL: Image by <a href="https://www.freepik.com/free-vector/japanese-temple-hill_9978259.htm#query=japanese%20shrine%20sihlouette&position=31&from_view=search&track=ais&uuid=0f7a82fc-78a7-4772-b457-acf053bd707e">Freepik</a>
@@ -56,3 +61,17 @@ Shuriken asset:
 URL: https://dk-happy.itch.io/shuriken-ninja
 Author: DK_Happy
 Accessed: 29/11/2023
+
+Ninja adventure asset pack:
+URL: https://pixel-boy.itch.io/ninja-adventure-asset-pack
+Author: pixel-boy
+
+Pixel Art Top Down - Basic:
+URL: https://cainos.itch.io/pixel-art-top-down-basic
+Author: Cainos
+
+Slime animations:
+URL: https://game-endeavor.itch.io/mystic-woods
+Author: Game Endeavor
+
+call credits.showModal() on the credits button click to show

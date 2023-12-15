@@ -13,7 +13,13 @@ let mapHeight = levelMap.length;
 let tileSize = 32; // 32px x 32px
 let bStart, bSettings, bCredits, bGameplayBack, bRestart, bExit, bReplay, bNextLevel;
 let p; // player
+let coinsCollected = 0;
+let maxCoins = 0;
+let score = 0;
+let totalSpotted = 0;
+let levelSpotted = 0;
 let enemies = [];
+let coins = [];
 let cells = [];
 let completeSquare;
 let canvasWidth = 1536; 
@@ -22,6 +28,10 @@ let canvasHeight = 864;
 let canEnter = false;
 let selectLevelText = "";
 let selectLevelImg = new p5.Image(1,1);
+/* Timer */
+let maxTime = 120;
+let timer = maxTime;
+
 
 function preload() {
   terexmalFont = loadFont("fonts/terexmalSunday.otf");
@@ -35,8 +45,12 @@ function preload() {
   lvl3Img = loadImage("images/levelImages/lvl3Img.png");
   lvl4Img = loadImage("images/levelImages/lvl4Img.png");
   playerImg = loadImage("images/character.png");
-  gameMap = loadImage("images/gamemapTest2.png");
-  slimeEnemy = loadImage("images/slime.png");
+  gameMap = loadImage("images/gameMap1.png");
+  gameMap2 = loadImage("images/gameMap2.png");
+  gameMap3 = loadImage("images/gameMap3.png");
+  gameMap4 = loadImage("images/gameMap4.png");
+  slimeEnemy = loadImage("images/enemies/slime.png");
+  goldCoin = loadImage("images/goldCoin.png");
 }
 
 // ellipsemode(corner) which messing everything up
@@ -65,7 +79,7 @@ function setup() {
   bLvl2 = new Button(91, 289, 162, 121, "2", [31, 164, 204, 0], false, true, 15, terexmalFont);
   bLvl3 = new Button(91, 456, 162, 121, "3", [31, 164, 204, 0], false, false, 15, terexmalFont);
   bLvl4 = new Button(92, 623, 162, 121, "4", [31, 164, 204, 0], false, false, 15, terexmalFont);
-  bPlay = new Button(675, 767, 435, 69, "", [31, 164, 204, 0], 0, false, true);
+  bPlay = new Button(675, 767, 435, 69, "", [31, 164, 204, 0], true, true);
 }
 
 function draw() {
@@ -110,9 +124,11 @@ function draw() {
       textSize(64);
       textAlign(CENTER, CENTER);
       text("Credits", width / 2, height / 2 - 200);
+      credits.showModal();
       bGameplayBack.draw();
       bGameplayBack.update();
       if (bGameplayBack.pressed) {
+        credits.close();
         state = "gMain";
       }
       break;
@@ -121,12 +137,14 @@ function draw() {
       textAlign(CENTER, CENTER);
       textFont(karashaFont);
       textSize(64);
-      text("Gameover", width / 2, height / 2 - 200);
+      text("Gameover", width / 2, height / 2 - 250);
       bRestart.draw();
       bRestart.update();
       bExit.draw();
       bExit.update();
       if (bRestart.pressed) {
+        totalSpotted++;
+        levelSpotted++;
         startLevel(level);
         state = "gGameplay";
       
@@ -136,14 +154,33 @@ function draw() {
         startLevel(level);
         state = "gMain";
       }
+      if (timer == 0) {
+        text("YOU DIDN'T ESCAPE IN TIME", width/2, height * 0.65);
+      } else {
+        textSize(48);
+        text("Usually assassins are not supposed to be seen", width/2, height * 0.65);
+      }
       break;
     case "gComplete":
       image(screenBackground, 0, 0);
       textAlign(CENTER, CENTER);
       textFont(karashaFont);
       textSize(64);
-      text("Level complete", width / 2, height / 2 - 200);
-      gameLevels.levels[level].unlocked = true; // unlocked the next level
+      if (level == 4){
+        text("Congratulations, you beat the game", width / 2, height / 2 - 150)
+        textFont("Impact");
+        textSize(32);
+        (totalSpotted != 0) ? text(`You was spotted a total of ${totalSpotted} times, a true assassin could do better`, width / 2, height / 2 + 200) : text(`Great Job not getting spotted once`, width / 2, height / 2 + 200);  
+      } else {
+        text("Level complete", width / 2, height / 2 - 150);
+      }
+      textSize(48);
+      textFont("Impact");
+      score = coinsCollected * 3000 + timer * 200 - levelSpotted * 1500;
+      text(`Score: ${score}`, width / 2, height / 2 + 100); // score is calculated by coins collected * 200 + timer * 3000 - levelSpotted * 150
+      text(`${coinsCollected} / ${coins.length} coins collected`, width / 2, height / 2 - 20);
+      if (level != 4) text(`spotted: ${levelSpotted} times`, width / 2, height / 2 + 200);
+      if (level != 4) gameLevels.levels[level].unlocked = true; // unlocked the next level
       bReplay.draw();
       bReplay.update();
       bNextLevel.draw();
@@ -152,13 +189,14 @@ function draw() {
       bExit.update();
       if (bReplay.pressed) {
         startLevel(level);
+        levelSpotted = 0;
         state = "gGameplay";
       
       } else if (bExit.pressed) {
         startLevel(level);  
         state = "gMain";
       } else if (bNextLevel.pressed) {
-        level++;
+        if (level != 4)level++;
         initNextLevel(level);
         state = "gGameplay";
       }
@@ -198,7 +236,7 @@ function draw() {
         canEnter = true;
         }
       } else if (bLvl3.pressed) { // there is no working lvl3 in the levels data structure
-        selectLevelText = "THE HILLTOP VILLAGE"; //add the image for this lvl
+        selectLevelText = "THE CATACOMBS"; //add the image for this lvl
         selectLevelImg = lvl3Img;
         if (gameLevels.levels[2].unlocked) {
         level = 3;
@@ -227,21 +265,39 @@ function drawMap(levelMap) {
     for (let x = 0; x < mapWidth; x++) {
       //cells.push(new cell(x))
       noStroke();
-      fill(cellColour[levelMap[y][x]]);
-      rect(x * cellSize, y * cellSize, cellSize, cellSize);
+      if (levelMap[y][x] == 1) {
+        fill(255, 0, 0, 50);
+        rect(x * cellSize, y * cellSize, cellSize, cellSize);
+      }
     }
   }
 } //endfunc
 
+
 function runGame() {
-  //drawMap(levelMap);
   //noStroke(); // removes stroke around the enemy vision cones
-  if (level == 1) image(gameMap, 0, 0);
+  switch (level) {
+    case 1: image(gameMap, 0, 0);
+      break;
+    case 2: image(gameMap2, 0, 0);
+      break;
+    case 3: image(gameMap3, 0, 0);
+      break;
+    case 4: image(gameMap4, 0, 0);
+      break;
+  }
+  //drawMap(levelMap);
   runEnemies(enemies);
+  showCoins(coins);
+  textSize(24);
+  textFont("Impact");
+  text(`${coinsCollected} / ${coins.length} coins collected`, width / 2 + 250, 25);
+  text(`Time: ${maxTime - timer}`, width / 2 + 500, 25);
   completeSquare.draw();
   p.draw();
   p.move();
   completeSquare.ifLevelComplete(p);
+  runTimer();
 } //endfuc
 
 function startLevel(level){
@@ -252,6 +308,39 @@ function startLevel(level){
   enemies.forEach((e) => {
     e.x = e.default.x; e.y = e.default.y;
   });
+  coinsCollected = 0;
+  coins = [];
+  timer = maxTime;
+  score = 0;
+  initCoins(level);
+} //endfunc
+
+
+function initNextLevel(level) {
+  gameData = gameLevels.levels[level - 1];
+  levelMap = gameData.tileMap;
+  mapWidth = levelMap[0].length;
+  mapHeight = levelMap.length;
+  cellSize = floor(min(width / mapWidth, height / mapHeight));
+  p = new Player(gameData.playerPosition.x * cellSize, gameData.playerPosition.y * cellSize);
+  completeSquare = new CompleteSquare(gameData.completeSquare.x * cellSize, gameData.completeSquare.y * cellSize, cellSize, cellSize);
+  enemies = [];
+  coinsCollected = 0;
+  coins = [];
+  timer = maxTime;
+  score = 0;
+  levelSpotted = 0;
+  initEnemies(level);
+  initCoins(level);
+  runGame();
+  return;
+} //endfunc
+
+function initEnemies(level) {
+  for (const key in gameData.enemies){
+    let enemy = gameData.enemies[key];
+    enemies.push(new Enemy({x: enemy.position.x * cellSize, y: enemy.position.y * cellSize, facing: enemy.facing, route: enemy.route, visionRadius: enemy.visionRadius, fov: enemy.fov, visionType: enemy.visionType, blink: enemy.blink}));
+  } //endfor
 } //endfunc
 
 function runEnemies(enemies) {
@@ -263,26 +352,30 @@ function runEnemies(enemies) {
   });
 } //endfunc
 
-function initNextLevel(level) {
-  gameData = gameLevels.levels[level - 1];
-  levelMap = gameData.tileMap;
-  mapWidth = levelMap[0].length;
-  mapHeight = levelMap.length;
-  cellSize = floor(min(width / mapWidth, height / mapHeight));
-  p = new Player(gameData.playerPosition.x * cellSize, gameData.playerPosition.y * cellSize);
-  completeSquare = new CompleteSquare(gameData.completeSquare.x * cellSize, gameData.completeSquare.y * cellSize, cellSize, cellSize);
-  enemies = [];
-  initEnemies(level);
-  runGame();
-  return;
+function initCoins(level) {
+  for (let y = 0; y < mapHeight; y++) {
+    for (let x = 0; x < mapWidth; x++) {
+      if (gameData.coins[y][x] == 2) {
+        coins.push(new Coin((x + 0.5) * cellSize, (y + 0.5) * cellSize));
+      }//endif
+    }//endfor
+  }//endfor
 } //endfunc
 
-function initEnemies(level) {
-  for (const key in gameData.enemies){
-    let enemy = gameData.enemies[key];
-    enemies.push(new Enemy({x: enemy.position.x * cellSize, y: enemy.position.y * cellSize, facing: enemy.facing, route: enemy.route, visionRadius: enemy.visionRadius, fov: enemy.fov, visionType: enemy.visionType}));
-  } //endfor
+function showCoins(coins) {
+  coins.forEach((c) => {
+    c.draw();
+    c.ifCollected(p);
+  });
 } //endfunc
 
-function drawSelectUI() {
+function pad(val) { return val > 9 ? val : "0" + val; }
+function runTimer() {
+  if (frameCount % 60 == 0 && timer > 0) { // if the frameCount is divisible by 60, then a second has passed. it will stop at 0
+    timer --;
+  }
+  if (timer == 0) {
+    text("GAME OVER", width/2, height*0.7);
+    state = "gOver";
+  }
 }

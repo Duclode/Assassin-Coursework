@@ -1,5 +1,5 @@
 class CompleteSquare {
-  constructor(x, y, w, h, colour = [0, 255, 0, 20]) {
+  constructor(x, y, w, h, colour = [0, 255, 0, 0]) {
     this.x = x;
     this.y = y;
     this.w = w;
@@ -8,6 +8,7 @@ class CompleteSquare {
   }
   
   draw() {
+    noStroke();
     fill(this.colour);
     rect(this.x, this.y, this.w, this.h);
   }

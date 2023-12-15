@@ -14,7 +14,7 @@ class Button {
 
   draw() {
     this.pressed ? fill(255, 255, 255, 20) : fill(...this.colour);
-    //displays a circle next to the button on hover
+    //displays a shuriken next to the button on hover
     if(this.inside && this.showCircle) {
       //circle(this.pos.x - 75, this.pos.y + this.rectSize.y / 2, 30); /* bug testing */
       image(shuriken, this.pos.x - 100, this.pos.y + this.rectSize.y / 2 - 25);

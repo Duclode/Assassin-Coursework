@@ -3,7 +3,7 @@
     // https://stackoverflow.com/questions/1512315/javascript-looping-over-an-object
     // https://stackoverflow.com/questions/2228203/how-to-loop-through-an-object-in-javascript
 class Enemy {
-  constructor({x, y, speed = 2.8, route = 'vertical', facing =  'down', visionRadius = 10, fov = 4, visionType = "cone"}) {
+  constructor({x, y, speed = 2.6, route = 'vertical', facing =  'down', visionRadius = 10, fov = 4, visionType = "cone", blink = false}) {
     this.x = x;
     this.y = y;
     this.speed = speed;
@@ -12,6 +12,7 @@ class Enemy {
     this.dy = this.speed;
 
     /* vision cone */
+    this.blink = blink;
     this.visionType = visionType;
     this.facing = facing;
     this.direction = {
@@ -30,7 +31,6 @@ class Enemy {
 
     /* patrol */
     this.patrolMode = {type: route, fixedCam: false}; // type: vertical, horizontal, stationary
-    this.collideCount = 0;
 
     /* Sprite */
     this.frame = 0;
@@ -46,10 +46,13 @@ class Enemy {
 
   draw() {
     /* hitbox debug */
+    if (this.patrolMode.type == "stationary") {this.maxFrame = 4; this.line = 0};
     fill(this.camColour);
-    circle(this.x, this.y, this.diameter);
+    //circle(this.x, this.y, this.diameter);
     if (this.visionType == "area") circle(this.x, this.y, this.arcRadius);
-    if (this.gameFrame % this.staggerFrames == 0) this.frame = ++this.frame % this.maxFrame;
+    if (this.gameFrame % this.staggerFrames == 0) {
+      this.frame = ++this.frame % this.maxFrame;
+    }
     if (this.visionType == "cone") {
       this.refreshCamera();
       this.camera.drawCamera(); 
@@ -101,7 +104,6 @@ class Enemy {
     if (collideCircleCircle(this.x, this.y, this.arcRadius, player.x, player.y, player.diameter)) {
       this.camera.colour = [255, 0, 0, 80];
       state = "gOver";
-    
     } else {
       this.camera.colour = this.camColour;
     }

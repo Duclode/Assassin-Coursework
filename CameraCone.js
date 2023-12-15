@@ -8,8 +8,9 @@ class Camera {
     this.colour = colour;
   }
 
-  drawCamera(){
+  drawCamera() {
     /** arc(x, y, width, height, angleStart, angleStop, [mode]) */
+    stroke(3);
     push();
     translate(this.x, this.y);
     rotate(this.heading);

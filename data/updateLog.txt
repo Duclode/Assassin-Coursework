@@ -1,6 +1,7 @@
 28/11/2023
 drew the select level UI using paint.net
-positioned the bottons so that they align with those on the picture and make them transparent
+added images for levels 1, 2 and 4
+positioned the buttons so that they align with those on the picture and make them transparent
 update buttons classes to take corner rounding and a font
 added the terexmal font for the UI using loadFont and textFont funcs
 changed pressing the level sending you straight into the level and just selects it now and you gotta press "play" to start the level now
@@ -8,7 +9,6 @@ added the play button functionality
 added a unlocked attribute to the buttons
 added canEnter variable
 made it so the next level is unlocked after completing the previous one
-added images for levels 1, 2 and 4
 
 29/11/2023
 made it so when each level is selected an image is also displayed (image size: 1002 x 561; from 415, 94)
@@ -24,14 +24,36 @@ added 2 more enemies to lvl 1
 Added stationary Enemies (with vision cones)
 finish areaVision enemy method
 add stationary enemyies with no vision cone but a circular area of vision instead
+put a shuriken on both sides of the restart, replay and next level buttons on hover
+added a array of coins for levels which can be collected in game
+added collectables to the game and have the num collected displayed on the completion screen
 
-/* Next Goals */
-put a shuriken on both sides of button for the restart, replay and next level buttons 
-Add functional levels (WIP)
+3/12/2023
+finished the credits screen
+finished designing and testing the collisions for level 4
+found the source of the slime spritesheet
+Updated the lvl 2 map
+
+8/12/2023
+show the No. of collected coins at the top of the screen
+
+9/12/2023
+added animated sprites to the coins
+
+10/12/2023
+finished the 3rd level design
+Added functional levels
+added a count down timer and haver the time remaining add to the score like in mario
+added a score https://editor.p5js.org/marynotari/sketches/S1T2ZTMp-
+fixed the final level crashing the game when completed
+added congratulations text after finished the final level instead of the default "level complete" 
 Add a better Complete Screen (WIP)
 Add a better Death Screen (WIP)
-I need to find the source of the slime spritesheet
-use inheritence to extend the button class for level buttons that will centre the text better 
+
+/* Next Goals */
 use the hasVisionCone variable and a timer to create "blinking" vision cones
-make the screen sizes reactive to the screen size 
 Pause menu that appears when you press options while playing a level
+display the time they took to beat the game at the end
+everytime your spotted have a random death message 
+make the screen sizes reactive to the screen size (won't do anytime soon) 
+rename startLevel func to restartLevel (not really nessecary)
