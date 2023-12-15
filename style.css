@@ -1,24 +1,25 @@
 * {
-  margin: 0px;
-  overflow: hidden;
+	margin: 0px;
+	overflow: hidden;
 }
 
-html, body {
-  height: 100%;
-  width: 100%
+html,
+body {
+	height: 100%;
+	width: 100%;
 }
 
 body {
-  background-color: #000000;
-  display: flex;
-  /* centre canvas horizontally */
-  justify-content: center;
-  /* centre canvas vertically */
-  align-items: center;
+	background-color: #000000;
+	display: flex;
+	/* centre canvas horizontally */
+	justify-content: center;
+	/* centre canvas vertically */
+	align-items: center;
 }
 
 #credits {
-  left: 50%;
-  top: 50%;
-  translate: -50% -50%;
+	left: 50%;
+	top: 50%;
+	translate: -50% -50%;
 }
