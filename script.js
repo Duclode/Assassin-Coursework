@@ -3,7 +3,6 @@ let level = 1;
 let state = "gMain";
 let gameData = gameLevels.levels[level - 1];
 let levelMap = gameData.tileMap;
-let cellColour = ["white", "red"];
 let cellSize = 0;
 let mapWidth = levelMap[0].length;
 let mapHeight = levelMap.length;

@@ -1,4 +1,5 @@
 class Coin {
+	// class to create collectable coins
 	constructor(x, y) {
 		this.x = x;
 		this.y = y;

@@ -11,7 +11,7 @@ class CompleteSquare {
 		// colour is invisable so its not drawn (used only for testing)
 		noStroke();
 		fill(this.colour);
-		rect(this.x, this.y, this.w, this.h); 
+		rect(this.x, this.y, this.w, this.h);
 	}
 
 	ifLevelComplete(player) {

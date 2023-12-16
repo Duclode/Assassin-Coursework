@@ -1,4 +1,5 @@
 class Camera {
+	// class to create the vison cone for each enemy
 	constructor(x, y, arcRadius, heading, fov, colour) {
 		this.x = x;
 		this.y = y;

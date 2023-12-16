@@ -1,4 +1,5 @@
 class Enemy {
+	// class to create the enemies
 	constructor({
 		x,
 		y,

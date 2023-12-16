@@ -1,4 +1,5 @@
 class Button {
+	// class to create menu buttons
 	constructor(
 		posX,
 		posY,
@@ -29,7 +30,11 @@ class Button {
 		if (this.inside && this.showCircle) {
 			//circle(this.pos.x - 75, this.pos.y + this.rectSize.y / 2, 30); /* hitbox testing */
 			image(shuriken, this.pos.x - 100, this.pos.y + this.rectSize.y / 2 - 25);
-			image(shuriken, this.pos.x + this.rectSize.x + 45, this.pos.y + this.rectSize.y / 2 - 25);
+			image(
+				shuriken,
+				this.pos.x + this.rectSize.x + 45,
+				this.pos.y + this.rectSize.y / 2 - 25
+			);
 		}
 		stroke(3);
 		rect(

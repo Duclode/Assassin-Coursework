@@ -2,7 +2,7 @@ class Player {
 	constructor(x, y) {
 		this.x = x;
 		this.y = y;
-		this.speed = 9; 
+		this.speed = 9;
 		this.diameter = cellSize * 0.7;
 		this.dx = this.speed;
 		this.dy = this.speed;
@@ -25,10 +25,10 @@ class Player {
 		//draws player sprite to the screen
 		image(
 			playerImg,
-			this.x - this.diameter / 2 - 10, // originally no -10
-			this.y - this.diameter / 2 - 15, // originally no -15
-			this.diameter * 1.9, // originally no * 2
-			this.diameter * 1.9, // originally no * 2
+			this.x - this.diameter / 2 - 10,
+			this.y - this.diameter / 2 - 15,
+			this.diameter * 1.9,
+			this.diameter * 1.9,
 			this.frame * 64, // tileSize
 			this.line * 64, // tileSize
 			64, // tileSize
