@@ -223,7 +223,7 @@ let gameLevels = {
 				x: 45,
 				y: 8,
 			},
-			unlocked: false,
+			unlocked: true,
 		},
 		{
 			levelId: 3,
@@ -339,7 +339,7 @@ let gameLevels = {
 				x: 11,
 				y: 20,
 			},
-			unlocked: false,
+			unlocked: true,
 		},
 		{
 			levalId: 4,
@@ -394,7 +394,7 @@ let gameLevels = {
 					},
 					route: "stationary",
 					facing: "left",
-					visionRadius: 6,
+					visionRadius: 6.15,
 				},
 				{
 					enemyId: 3,
@@ -404,7 +404,35 @@ let gameLevels = {
 					},
 					route: "stationary",
 					facing: "right",
-					visionRadius: 7,
+					visionRadius: 6.6,
+				},
+				{
+					enemyId: 4,
+					position: {
+						x: 28.5,
+						y: 6.5,
+					},
+					route: "horizontal",
+					facing: "right",
+				},
+				{
+					enemyId: 5,
+					position: {
+						x: 17.5,
+						y: 16.5,
+					},
+					route: "horizontal",
+					facing: "right",
+				},
+				{
+					enemyId: 6,
+					position: {
+						x: 23.5,
+						y: 6.5,
+					},
+					route: "vertical",
+					facing: "down",
+					visionRadius: 8,
 				},
 			],
 			// prettier-ignore
@@ -441,7 +469,7 @@ let gameLevels = {
 				x: 23,
 				y: 1,
 			},
-			unlocked: false,
+			unlocked: true,
 		},
 	],
 };
