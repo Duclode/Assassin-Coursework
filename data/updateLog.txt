@@ -50,6 +50,9 @@ added congratulations text after finished the final level instead of the default
 Add a better Complete Screen (WIP)
 Add a better Death Screen (WIP)
 
+24/12/2023
+fixed the initEnemies function to work how i originally wanted it to
+
 /* Next Goals */
 use the hasVisionCone variable and a timer to create "blinking" vision cones
 Pause menu that appears when you press options while playing a level
