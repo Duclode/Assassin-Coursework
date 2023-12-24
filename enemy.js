@@ -1,8 +1,7 @@
 class Enemy {
 	// class to create the enemies
 	constructor({
-		x,
-		y,
+		position,
 		speed = 2.6,
 		route = "vertical",
 		facing = "down",
@@ -11,8 +10,8 @@ class Enemy {
 		visionType = "cone",
 		blink = false,
 	}) {
-		this.x = x;
-		this.y = y;
+		this.x = position.x * cellSize;
+		this.y = position.y * cellSize;
 		this.speed = speed;
 		this.diameter = cellSize * 0.7;
 		this.dx = this.speed;
@@ -56,8 +55,8 @@ class Enemy {
 
 		//other
 		this.default = {
-			x: x,
-			y: y,
+			x: position.x * cellSize,
+			y: position.y * cellSize,
 			dx: speed,
 			dy: speed,
 			route: route,

@@ -486,18 +486,7 @@ function initNextLevel(level) {
 function initEnemies(level) {
 	for (const key in gameData.enemies) {
 		let enemy = gameData.enemies[key];
-		enemies.push(
-			new Enemy({
-				x: enemy.position.x * cellSize,
-				y: enemy.position.y * cellSize,
-				facing: enemy.facing,
-				route: enemy.route,
-				visionRadius: enemy.visionRadius,
-				fov: enemy.fov,
-				visionType: enemy.visionType,
-				blink: enemy.blink,
-			})
-		);
+		enemies.push(new Enemy(enemy));
 	} //endfor
 } //endfunc
 
